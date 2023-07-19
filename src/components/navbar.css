@@ -1,0 +1,19 @@
+.navbar {
+    height: 50px;
+    position: sticky;
+    top: 0;
+    padding: 1rem 2rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    transition: inherit;
+  }
+  
+  .nav--logo {
+    margin-right: auto;
+    font-size: 1.5rem;
+    background: #CF00B3;
+    background: linear-gradient(to right, #CF00B3 0%, #00B3CF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
