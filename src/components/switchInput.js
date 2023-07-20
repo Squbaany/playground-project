@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { useTheme } from "styled-components";
+import { styled, withTheme } from "styled-components";
 
 import "./switchInput.css"
 
-export default function SwitchInput({ isDarkTheme, toggleTheme }) {
+const LeftP = styled.p`
+    color: ${(props) => props.theme.switchParagraphLeft};
+`
 
-    const theme = useTheme()
+const RightP = styled.p`
+    color: ${(props) => props.theme.switchParagraphRight};
+`
+
+const SwitchInput = ({ isDarkTheme, toggleTheme }) => {
 
     const [isToggled, setIsToggled] = useState(isDarkTheme)
 
@@ -16,12 +22,14 @@ export default function SwitchInput({ isDarkTheme, toggleTheme }) {
 
     return(
         <div className="switch--wrapper">
-            <p style={{color: theme.switchParagraphLeft}}>Light</p>
+            <LeftP>Light</LeftP>
             <label className="switch">
             <input type="checkbox" checked={isToggled} onChange={onToggle}></input>
             <span className="slider"></span>
             </label>
-            <p style={{color: theme.switchParagraphRight}}>Dark</p>
+            <RightP>Dark</RightP>
         </div>
     )
 }
+
+export default withTheme(SwitchInput)

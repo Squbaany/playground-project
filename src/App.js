@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import styled, { ThemeProvider } from "styled-components"
 
 import './App.css';
-import { lightTheme, darkTheme } from './themes';
 
+import { lightTheme, darkTheme } from './themes';
 
 import NavBar from './components/navbar';
 import LoginForm from './components/loginForm';
@@ -39,7 +39,7 @@ const Styledp = styled.p`
 function App() {
 
   const [theme, setTheme] = useState("light")
-  const isDarkTheme = theme === "dark"
+  const isDarkTheme = theme === "dark";
 
   const toggleTheme = () => {
     setTheme(isDarkTheme ? "light" : "dark")
@@ -57,7 +57,7 @@ function App() {
           <StyledSection>
             <div className='sectionTextWrapper'>
               <StyledH1>Login form</StyledH1>
-              <Styledp>Simple login form with credentials stored in a cookie. </Styledp>
+              <Styledp>Simple login/register form with credentials stored in a cookie. </Styledp>
             </div>
             <div className='sectionContent'>
               <LoginForm />

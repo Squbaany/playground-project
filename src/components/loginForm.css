@@ -1,10 +1,13 @@
 .login--wrapper {
+    margin-left: auto;
+    max-width: 800px;
     text-align: center;
     display: felx;
     flex-direction: column;
     border-radius: 1rem;
     padding: 2rem;
 }
+
 .login--signin {
     margin: auto;
     width: 80%;
