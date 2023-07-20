@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { styled, withTheme } from "styled-components";
+import { Link, useNavigate } from 'react-router-dom';
 
 import './loginForm.css';
+import Cookies from "js-cookie";
 
 const StyledButton = styled.button`
     cursor: pointer;
@@ -22,19 +24,17 @@ const StyledButton = styled.button`
 const StyledInput = styled.input`
     margin: 0.2rem calc(10% - 1rem);
     padding: 0.5rem 1rem;
-    border: 1px solid black;
+    border: 1px solid ${(props) => props.theme.color};
     border-radius: 1rem;
     width: 80%;
     transition: 0.4s;
     &:focus {
         outline: none;
-        filter: drop-shadow(0px 0px 0.2rem ${(props) => props.theme.color});
+        filter: drop-shadow(0px 0px 0.3rem ${(props) => props.theme.color});
     }
 `;
 
 const LoginWrapper = styled.div`
-    margin-left: auto;
-    max-width: 800px;
     text-align: center;
     display: felx;
     flex-direction: column;
@@ -44,6 +44,8 @@ const LoginWrapper = styled.div`
 `;
 
 const LoginForm = () => {
+
+    const navigate = useNavigate();
 
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
@@ -56,7 +58,17 @@ const LoginForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(user, password)
+        if(!Cookies.get(user)){
+            setErrMsg("Invalid login")
+            return
+        }
+
+        if(Cookies.get(user) !== password){
+            setErrMsg("Invalid password")
+            return
+        }
+
+        navigate("/loggedIn",{ state: { userID: user, }})
 
         setUser('')
         setPassword('')
@@ -64,13 +76,18 @@ const LoginForm = () => {
 
     return(
         <LoginWrapper>
+
             <section className="login--signin">
+
             <p className={errMsg ? "errmsg" : "offscreen"}>{errMsg}</p>
-                <h1>Sign in</h1>
+
+                <h1>Log in</h1>
+
                 <form onSubmit={handleSubmit}>
+
                     <label htmlFor="username">Username:</label>
+
                     <StyledInput
-                        key="username_key" 
                         type="text" 
                         id="username" 
                         className="login--input"
@@ -78,9 +95,10 @@ const LoginForm = () => {
                         value={user}
                         required
                     ></StyledInput>
+
                     <label htmlFor="password">Password:</label>
+
                     <StyledInput
-                        key="password_key"
                         type="password" 
                         id="password" 
                         className="login--input"
@@ -88,11 +106,17 @@ const LoginForm = () => {
                         value={password}
                         required
                     ></StyledInput>
+
                     <StyledButton>Sign in</StyledButton>
+
                     Don't have an account?
-                    <a href="#"> Sign Up</a>
+
+                    <Link to="/registerForm"> Sign up</Link>
+
                 </form>
+
             </section>
+
         </LoginWrapper>
     )
 }

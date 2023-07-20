@@ -1,14 +1,21 @@
-.login--wrapper {
-    margin-left: auto;
-    max-width: 800px;
-    text-align: center;
-    display: felx;
-    flex-direction: column;
-    border-radius: 1rem;
-    padding: 2rem;
-}
-
 .login--signin {
     margin: auto;
+    width: 80%
+}
+
+.offscreen {
+    position: absolute;
+    left: -9999px;
+}
+
+.errmsg {
+    color: red;
+    font-weight: bold;
+}
+
+.instructions {
     width: 80%;
+    padding: 1rem;
+    margin: 0.2rem calc(10% - 1rem);
+    color: green;
 }

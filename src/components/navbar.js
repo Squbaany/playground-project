@@ -5,7 +5,7 @@ import "./navbar.css"
 
 import SwitchInput from "./switchInput";
 
-export default function NavBar(props) {
+const NavBar = (props) => {
 
     const theme = useTheme()
 
@@ -19,3 +19,5 @@ export default function NavBar(props) {
         </nav>
     )
 }
+
+export default NavBar

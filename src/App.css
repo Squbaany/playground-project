@@ -8,6 +8,7 @@
 .sectionContent {
   margin-left: 2rem;
   max-width: 60vw;
+  width: 100%;
   border-radius: 1rem;
   height: auto;
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled, { ThemeProvider } from "styled-components"
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import './App.css';
 
@@ -7,6 +8,28 @@ import { lightTheme, darkTheme } from './themes';
 
 import NavBar from './components/navbar';
 import LoginForm from './components/loginForm';
+import RegisterForm from './components/registerForm';
+import Registered from './components/registered';
+import LoggedIn from './components/loggedIn';
+
+const loginRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <LoginForm />,
+  },
+  {
+    path: "/registerForm",
+    element: <RegisterForm />,
+  },
+  {
+    path: "/registered",
+    element: <Registered />
+  },
+  {
+    path: "/loggedIn",
+    element: <LoggedIn />
+  }
+])
 
 const StyledApp = styled.div`
   min-height: 100vh;
@@ -36,7 +59,7 @@ const Styledp = styled.p`
   text-align: justify;
 `
 
-function App() {
+const App = () => {
 
   const [theme, setTheme] = useState("light")
   const isDarkTheme = theme === "dark";
@@ -60,40 +83,10 @@ function App() {
               <Styledp>Simple login/register form with credentials stored in a cookie. </Styledp>
             </div>
             <div className='sectionContent'>
-              <LoginForm />
+              <RouterProvider router={loginRouter}>
+              </RouterProvider>
             </div>
           </StyledSection>
-
-          <StyledSection>
-            <div className='sectionTextWrapper'>
-              <StyledH1>Testowy panel</StyledH1>
-              <Styledp>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Styledp>
-            </div>
-            <div className='sectionContent'>
-              
-            </div>
-          </StyledSection>
-
-          <StyledSection>
-            <div className='sectionTextWrapper'>
-              <StyledH1>Testowy panel</StyledH1>
-              <Styledp>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Styledp>
-            </div>
-            <div className='sectionContent'>
-              
-            </div>
-          </StyledSection>
-
-          <StyledSection>
-            <div className='sectionTextWrapper'>
-              <StyledH1>Testowy panel</StyledH1>
-              <Styledp>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Styledp>
-            </div>
-            <div className='sectionContent'>
-              
-            </div>
-          </StyledSection>
-
       </StyledApp>
     </ThemeProvider>
   );
