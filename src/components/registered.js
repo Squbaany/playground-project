@@ -2,10 +2,13 @@ import React from "react";
 import { styled, withTheme } from "styled-components";
 
 import './loginForm.css';
+
 import { Link } from "react-router-dom";
 
 const LoginWrapper = styled.div`
+    position: relative;
     text-align: center;
+    width:100%;
     display: felx;
     flex-direction: column;
     border-radius: 1rem;

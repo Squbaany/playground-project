@@ -12,6 +12,8 @@ import RegisterForm from './components/registerForm';
 import Registered from './components/registered';
 import LoggedIn from './components/loggedIn';
 
+// jwt token
+
 const loginRouter = createBrowserRouter([
   {
     path: "/",
@@ -32,7 +34,6 @@ const loginRouter = createBrowserRouter([
 ])
 
 const StyledApp = styled.div`
-  min-height: 100vh;
   max-width: 100%;
   padding: 1rem;
   color: ${(props) => props.theme.color};
@@ -41,22 +42,13 @@ const StyledApp = styled.div`
 `
 
 const StyledSection = styled.section`
-  margin: 1rem 1rem 0;
+  margin: 1rem 1rem;
+  height: calc(100vh - 50px - 8rem);
+  min-height: calc(30vh + 400px);
   display: flex;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 1rem;
   background-color: ${(props) => props.theme.sectionBg};
-`
-
-const StyledH1 = styled.h1`
-  height: 3rem;
-  margin: 0;
-  margin-bottom: 0.5rem;
-`
-
-const Styledp = styled.p`
-  margin: 0;
-  text-align: justify;
 `
 
 const App = () => {
@@ -71,21 +63,13 @@ const App = () => {
   return (
     <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
       <StyledApp>
-
         <NavBar
           toggleTheme = {toggleTheme}
           isDarkTheme = {isDarkTheme}
         />
-
           <StyledSection>
-            <div className='sectionTextWrapper'>
-              <StyledH1>Login form</StyledH1>
-              <Styledp>Simple login/register form with credentials stored in a cookie. </Styledp>
-            </div>
-            <div className='sectionContent'>
               <RouterProvider router={loginRouter}>
               </RouterProvider>
-            </div>
           </StyledSection>
       </StyledApp>
     </ThemeProvider>

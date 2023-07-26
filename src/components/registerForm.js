@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { styled, withTheme } from "styled-components";
 import Cookies from "js-cookie";
 
 import './loginForm.css';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from '../api/axios';
 
+const REGISTER_URL = '/register'
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -26,6 +28,7 @@ const StyledButton = styled.button`
 
 const StyledInput = styled.input`
     margin: 0.2rem calc(10% - 1rem);
+    margin-bottom: 0.5rem;
     padding: 0.5rem 1rem;
     border: 1px solid black;
     border-radius: 1rem;
@@ -38,7 +41,9 @@ const StyledInput = styled.input`
 `;
 
 const RegisterWrapper = styled.div`
+    position: relative;
     text-align: center;
+    width:100%;
     display: felx;
     flex-direction: column;
     border-radius: 1rem;
@@ -63,6 +68,7 @@ const RegisterForm = () => {
     const [confFocus, setConfFocus] = useState(false);
 
     const [errMsg, setErrMsg] = useState('');
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         setValidUser(USER_REGEX.test(user))
@@ -88,18 +94,31 @@ const RegisterForm = () => {
             return
         }
 
-        if(Cookies.get(user)) {
-            setErrMsg("Username taken")
-            return
+        try {
+            const response = await axios.post(REGISTER_URL,
+                JSON.stringify({ user, password }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            // TODO: remove console.logs before deployment
+            console.log(JSON.stringify(response?.data));
+            //console.log(JSON.stringify(response))
+            setSuccess(true);
+            //clear state and controlled inputs
+            setUser('');
+            setPassword('');
+            setConfPassword('');
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 409) {
+                setErrMsg('Username Taken');
+            } else {
+                setErrMsg('Registration Failed')
+            }
         }
-
-        Cookies.set(user, password)
-        
-        setUser('')
-        setPassword('')
-        setConfPassword('')
-
-        navigate("/registered")
     }
 
     return(
@@ -121,14 +140,15 @@ const RegisterForm = () => {
                         className="login--input"
                         onChange={(e) => setUser(e.target.value)}
                         value={user}
+                        autoComplete="off"
                         required
                         onFocus={() => setUserFocus(true)}
                         onBlur={() => setUserFocus(false)}
                     ></StyledInput>
 
-                    <p  className={userFocus && user && !validUser ? "instructions" : "offscreen"}>
-                            4 to 24 characters. Must begin with a letter.<br />
-                            Letters, numbers and underscores allowed.<br />
+                    <p  className={userFocus && !validUser ? "instructions" : "offscreen"}>
+                            4 to 24 characters. Must begin with a letter.
+                            Letters, numbers and underscores allowed.
                     </p>
 
                     <label htmlFor="password">Password:</label>
@@ -146,7 +166,7 @@ const RegisterForm = () => {
 
                     <p className={passwordFocus && !validPassword ? "instructions" : "offscreen"}>
                             8 to 24 characters.
-                            Must include uppercase and lowercase letters, a number and a special character.<br />
+                            Must include uppercase and lowercase letters, a number and a special character.
                             Allowed special characters: ! @ # $
                     </p>
 

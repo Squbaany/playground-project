@@ -6,7 +6,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Cookies from "js-cookie";
 
 const LoginWrapper = styled.div`
+    position: relative;
     text-align: center;
+    width:100%;
     display: felx;
     flex-direction: column;
     border-radius: 1rem;

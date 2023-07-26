@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { styled, withTheme } from "styled-components";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import useAuth from "../hooks/useAuth";
 
 import './loginForm.css';
-import Cookies from "js-cookie";
+
+import axios from "../api/axios.ts";
+const LOGIN_URL = '/auth';
 
 const StyledButton = styled.button`
     cursor: pointer;
     font-size: 1.5rem;
-    width: 60%;
-    margin: 1rem 20%;
+    width: 50%;
+    margin: 1rem 25%;
     border: none;
     border-radius: 1.5rem;
     padding: 0.7rem;
@@ -23,6 +26,7 @@ const StyledButton = styled.button`
 
 const StyledInput = styled.input`
     margin: 0.2rem calc(10% - 1rem);
+    margin-bottom: 0.5rem;
     padding: 0.5rem 1rem;
     border: 1px solid ${(props) => props.theme.color};
     border-radius: 1rem;
@@ -35,7 +39,9 @@ const StyledInput = styled.input`
 `;
 
 const LoginWrapper = styled.div`
+    position: relative;
     text-align: center;
+    width:100%;
     display: felx;
     flex-direction: column;
     border-radius: 1rem;
@@ -45,7 +51,11 @@ const LoginWrapper = styled.div`
 
 const LoginForm = () => {
 
+    const { setAuth } = useAuth();
+
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
@@ -58,20 +68,33 @@ const LoginForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(!Cookies.get(user)){
-            setErrMsg("Invalid login")
-            return
+        try {
+            const response = await axios.post(LOGIN_URL,
+                JSON.stringify({ user, password }),
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true
+                }
+            );
+            console.log(JSON.stringify(response?.data));
+            //console.log(JSON.stringify(response));
+            const accessToken = response?.data?.accessToken;
+            const roles = response?.data?.roles;
+            setAuth({ user, password, roles, accessToken });
+            setUser('');
+            setPassword('');
+            navigate(from, { replace: true });
+        } catch (err) {
+            if (!err?.response) {
+                setErrMsg('No Server Response');
+            } else if (err.response?.status === 400) {
+                setErrMsg('Missing Username or Password');
+            } else if (err.response?.status === 401) {
+                setErrMsg('Unauthorized');
+            } else {
+                setErrMsg('Login Failed');
+            }
         }
-
-        if(Cookies.get(user) !== password){
-            setErrMsg("Invalid password")
-            return
-        }
-
-        navigate("/loggedIn",{ state: { userID: user, }})
-
-        setUser('')
-        setPassword('')
     }
 
     return(

@@ -11,7 +11,7 @@ const NavBar = (props) => {
 
     return(
         <nav className="navbar" style={{backgroundColor: theme.body}}>
-            <h1 className="nav--logo">Igor Pacholski</h1>
+            <h1 className="nav--logo">Playground</h1>
             <SwitchInput
                 toggleTheme = {props.toggleTheme}
                 isDarkTheme = {props.isDarkTheme}
