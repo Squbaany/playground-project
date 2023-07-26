@@ -9,7 +9,6 @@ import { lightTheme, darkTheme } from './themes';
 import NavBar from './components/navbar';
 import LoginForm from './components/loginForm';
 import RegisterForm from './components/registerForm';
-import Registered from './components/registered';
 import LoggedIn from './components/loggedIn';
 
 // jwt token
@@ -20,12 +19,8 @@ const loginRouter = createBrowserRouter([
     element: <LoginForm />,
   },
   {
-    path: "/registerForm",
+    path: "/register",
     element: <RegisterForm />,
-  },
-  {
-    path: "/registered",
-    element: <Registered />
   },
   {
     path: "/loggedIn",

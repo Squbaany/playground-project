@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { styled, withTheme } from "styled-components";
-import Cookies from "js-cookie";
 
 import './loginForm.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -123,6 +122,11 @@ const RegisterForm = () => {
 
     return(
         <RegisterWrapper>
+            {success ? (
+                <section className="login--signin">
+                    <h1>Succesfully registered!</h1>
+                </section>
+            ):(
 
             <section className="login--signin">
 
@@ -197,6 +201,7 @@ const RegisterForm = () => {
 
             </section>
 
+            )}
         </RegisterWrapper>
     )
 }

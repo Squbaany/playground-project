@@ -1,9 +1,9 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import { styled, withTheme } from "styled-components";
+import AuthContext from "../context/AuthProvider";
 
 import './loginForm.css';
-import { useNavigate, useLocation } from 'react-router-dom';
-import Cookies from "js-cookie";
 
 const LoginWrapper = styled.div`
     position: relative;
@@ -34,22 +34,22 @@ const StyledButton = styled.button`
 
 const LoggedIn = () => {
 
-    const navigate = useNavigate()
+    const { setAuth } = useContext(AuthContext);
+    const navigate = useNavigate();
 
-    const location = useLocation()
+    const logout = async () => {
+        setAuth({});
+        navigate('/');
+    }
 
-    const user = location.state.userID
-
-    const password = Cookies.get(user)
 
     return(
         <LoginWrapper>
 
             <section className="login--signin">
 
-                <h1 className="instructions">Hello {user}</h1>
-                <p>Your password is: {password}</p>
-                <StyledButton onClick={() => navigate("/")}>Sign out</StyledButton>
+                <h1 className="instructions">You are logged in!</h1>
+                <StyledButton onClick={logout}>Sign out</StyledButton>
 
             </section>
 
