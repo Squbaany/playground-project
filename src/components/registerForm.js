@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { styled, withTheme } from "styled-components";
+import { Link } from 'react-router-dom';
+import axios from '../api/axios.ts';
 
 import './loginForm.css';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from '../api/axios';
 
 const REGISTER_URL = '/register'
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -52,8 +52,6 @@ const RegisterWrapper = styled.div`
 
 const RegisterForm = () => {
 
-    const navigate = useNavigate()
-
     const [user, setUser] = useState('');
     const [validUser, setValidUser] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
@@ -95,17 +93,19 @@ const RegisterForm = () => {
 
         try {
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ user, password }),
+                JSON.stringify({ 
+                    user: user, 
+                    password: password 
+                }),
                 {
-                    headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
+                    headers: { 'Content-Type': 'application/json' }
                 }
             );
-            // TODO: remove console.logs before deployment
+
             console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response))
+
             setSuccess(true);
-            //clear state and controlled inputs
+
             setUser('');
             setPassword('');
             setConfPassword('');
@@ -125,6 +125,7 @@ const RegisterForm = () => {
             {success ? (
                 <section className="login--signin">
                     <h1>Succesfully registered!</h1>
+                    <Link to="/">Sign in</Link>
                 </section>
             ):(
 

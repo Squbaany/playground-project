@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled, { ThemeProvider } from "styled-components"
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import './App.css';
 
@@ -10,23 +10,9 @@ import NavBar from './components/navbar';
 import LoginForm from './components/loginForm';
 import RegisterForm from './components/registerForm';
 import LoggedIn from './components/loggedIn';
+import MissingPage from './components/missingPage';
 
 // jwt token
-
-const loginRouter = createBrowserRouter([
-  {
-    path: "/",
-    element: <LoginForm />,
-  },
-  {
-    path: "/register",
-    element: <RegisterForm />,
-  },
-  {
-    path: "/loggedIn",
-    element: <LoggedIn />
-  }
-])
 
 const StyledApp = styled.div`
   max-width: 100%;
@@ -63,8 +49,13 @@ const App = () => {
           isDarkTheme = {isDarkTheme}
         />
           <StyledSection>
-              <RouterProvider router={loginRouter}>
-              </RouterProvider>
+              <Routes>
+                <Route path="/" element={<LoginForm />} />
+                <Route path="/register" element={<RegisterForm />} />
+                <Route path="/loggedIn" element={<LoggedIn />} />
+
+                <Route path='*' element={<MissingPage />} />
+              </Routes>
           </StyledSection>
       </StyledApp>
     </ThemeProvider>

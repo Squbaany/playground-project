@@ -6,7 +6,7 @@ import useAuth from "../hooks/useAuth";
 import './loginForm.css';
 
 import axios from "../api/axios.ts";
-const LOGIN_URL = '/auth';
+const LOGIN_URL = '/login';
 
 const StyledButton = styled.button`
     cursor: pointer;
@@ -70,20 +70,20 @@ const LoginForm = () => {
 
         try {
             const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ user, password }),
+                JSON.stringify({ 
+                    user: user,
+                    password: password
+                }),
                 {
                     headers: { 'Content-Type': 'application/json' },
-                    withCredentials: true
                 }
             );
             console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response));
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ user, password, roles, accessToken });
+
+            //setAuth({ user, password, roles, accessToken });
             setUser('');
             setPassword('');
-            navigate(from, { replace: true });
+            navigate("/loggedIn");
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
@@ -134,7 +134,7 @@ const LoginForm = () => {
 
                     Don't have an account?
 
-                    <Link to="/registerForm"> Sign up</Link>
+                    <Link to="/register"> Sign up</Link>
 
                 </form>
 

@@ -1,7 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import { styled, withTheme } from "styled-components";
-import AuthContext from "../context/AuthProvider";
 
 import './loginForm.css';
 
@@ -19,8 +17,8 @@ const LoginWrapper = styled.div`
 const StyledButton = styled.button`
     cursor: pointer;
     font-size: 1.5rem;
-    width: 60%;
-    margin: 1rem 20%;
+    width: 80%;
+    margin: 1rem 10%;
     border: none;
     border-radius: 1.5rem;
     padding: 0.7rem;
@@ -32,13 +30,11 @@ const StyledButton = styled.button`
     }
 `;
 
-const LoggedIn = () => {
+const MissingPage = () => {
 
-    const { setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const logout = async () => {
-        //setAuth({});
+    const logout = () => {
         navigate('/');
     }
 
@@ -48,8 +44,8 @@ const LoggedIn = () => {
 
             <section className="login--signin">
 
-                <h1 className="instructions">You are logged in!</h1>
-                <StyledButton onClick={logout}>Sign out</StyledButton>
+                <h1>404 Page not found</h1>
+                <StyledButton onClick={logout}>Go back to home page</StyledButton>
 
             </section>
 
@@ -57,4 +53,4 @@ const LoggedIn = () => {
     )
 }
 
-export default withTheme(LoggedIn)
+export default withTheme(MissingPage)
